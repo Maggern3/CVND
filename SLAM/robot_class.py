@@ -16,8 +16,7 @@ import random
 # easier to implement the essentials of SLAM without
 # cluttered math.
 #
-class robot:
-    
+class robot:    
     # --------
     # init:
     #   creates a robot with the specified parameters and initializes

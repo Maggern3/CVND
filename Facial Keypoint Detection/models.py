@@ -1,15 +1,8 @@
-## TODO: define the convolutional neural network architecture
-
 import torch
-from torch.autograd import Variable
 import torch.nn as nn
 import torch.nn.functional as F
-# can use the below import should you choose to initialize the weights of your Net
-import torch.nn.init as I
-
 
 class Net(nn.Module):
-
     def __init__(self):
         super(Net, self).__init__()        
         self.conv1 = nn.Conv2d(1, 32, 3, padding=0)
@@ -30,23 +23,15 @@ class Net(nn.Module):
         self.pool4x = nn.MaxPool2d(4, 4)
         self.dropout = nn.Dropout(p=0.35)  
         
-    def forward(self, x):
-        ## TODO: Define the feedforward behavior of this model
-        ## x is the input image and, as an example, here you may choose to include a pool/conv step:
-        #x = self.dropout(self.pool(F.relu(self.batchnorm1(self.conv1(x)))))
-        #x = self.dropout(self.pool(F.relu(self.batchnorm2(self.conv2(x)))))
-        #x = self.dropout(self.pool(F.relu(self.batchnorm3(self.conv3(x))))) # 14x14
-        #x = self.dropout(self.pool(F.relu(self.batchnorm4(self.conv4(x))))) # 7x7
-        #x = self.dropout(self.pool(F.relu(self.batchnorm5(self.conv5(x)))))
+    def forward(self, x):      
         x = self.pool(F.relu(self.batchnorm1(self.conv1(x))))
         x = self.pool(F.relu(self.batchnorm2(self.conv2(x))))
-        x = self.pool(F.relu(self.batchnorm3(self.conv3(x)))) # 14x14
-        x = self.pool(F.relu(self.batchnorm4(self.conv4(x)))) # 7x7
+        x = self.pool(F.relu(self.batchnorm3(self.conv3(x))))
+        x = self.pool(F.relu(self.batchnorm4(self.conv4(x))))
         x = self.pool(F.relu(self.batchnorm5(self.conv5(x))))
         
         x = x.view(x.shape[0], -1)
         x = self.dropout(F.relu(self.fc1(x)))
         x = self.dropout(F.relu(self.fc2(x)))
-        out = self.fc3(x)
-        # a modified x, having gone through all the layers of your model, should be returned
+        out = self.fc3(x)        
         return out
